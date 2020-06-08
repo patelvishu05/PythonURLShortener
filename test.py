@@ -15,5 +15,11 @@ class MyTest(unittest.TestCase):
     def test_counterURLTest(self):
         self.assertEqual(urlObj.countsVisited("http://localhost/sam"),2)
 
+    def test_dummyURLTest(self):
+        self.assertEqual(urlObj.visit("http://localhost/dummy"),"302")
+
+    def test_duplicateURLTest(self):
+        self.assertEqual(urlObj.shorten("www.tmobile.com","tmob"),"Duplicate")
+
 if __name__ == '__main__':
     unittest.main()

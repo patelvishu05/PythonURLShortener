@@ -48,6 +48,11 @@ class ShortURL:
                 
 
     def shorten(self, desiredUrl, shortUrl):
+        
+        if "http://localhost/"+shortUrl in self.shortenedUrls.keys():
+            print("Duplicate URL. A URL with that name already exists")
+            return("Duplicate")
+
         self.shortenedUrls["http://localhost/"+shortUrl] = desiredUrl
         self.visitCounter["http://localhost/"+shortUrl] = 0
 
@@ -72,8 +77,11 @@ class ShortURL:
     # to its original full format and return it so they the browser
     # can visit the intended URL
     def visit(self, visitUrl):
-        tempCounter = self.visitCounter[visitUrl] + 1
-        self.visitCounter[visitUrl] = tempCounter
+        if visitUrl in self.shortenedUrls.keys():
+            tempCounter = self.visitCounter[visitUrl] + 1
+            self.visitCounter[visitUrl] = tempCounter
+        else:
+            return "302"
 
 
         # write the existing data for Metric counts of URL visits to the json file
@@ -91,5 +99,5 @@ class ShortURL:
 
 # Execute the App from the menu for the URL Shortener to begin
 urlObj = ShortURL(True)
-if urlObj.debug is True:
-    urlObj.menu()
+# if urlObj.debug is True:
+urlObj.menu()
